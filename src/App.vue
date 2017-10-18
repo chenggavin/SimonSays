@@ -2,12 +2,12 @@
   <div id="app">
     
     <div class="row">
-      <button id="green" v-on:click="captureTap('green')" v-bind:class="{ 'lightGreen': lightGreen}" class="button green space">GREEN</button>
-      <button id="red" v-on:click="captureTap('red')" v-bind:class="{ 'lightRed': lightRed}" class="button red space">RED</button>
+      <button id="green" v-on:click="captureTap('green')" v-bind:class="{ 'lightGreen': lightGreen}" class="button green space"></button>
+      <button id="red" v-on:click="captureTap('red')" v-bind:class="{ 'lightRed': lightRed}" class="button red space"></button>
     </div>
     <div class="row">
-      <button id="blue" v-on:click="captureTap('blue')" v-bind:class="{ 'lightBlue': lightBlue}" class="button blue space">YELLOW</button>
-      <button id="yellow" v-on:click="captureTap('yellow')" v-bind:class="{ 'lightYellow': lightYellow}" class="button yellow space">BLUE</button>
+      <button id="blue" v-on:click="captureTap('blue')" v-bind:class="{ 'lightBlue': lightBlue}" class="button blue space"></button>
+      <button id="yellow" v-on:click="captureTap('yellow')" v-bind:class="{ 'lightYellow': lightYellow}" class="button yellow space"></button>
     </div>
   
     <button v-on:click="start" class="btn btn-md start">Start</button>
@@ -26,6 +26,7 @@
         longest: 0,
         sequence:[],
         taps:[],
+        tapCounter: 0,
         lights: [ 'green', 'red', 'yellow', 'blue'],
         lightGreen: false,
         lightBlue: false,
@@ -33,7 +34,7 @@
         lightYellow:false,
         litCounter: 0,
         currentColor: '',
-        simonFinished: true
+        simonFinished: false,
       }
     },
     computed: {
@@ -87,28 +88,53 @@
                   break;
             };
             this.litCounter++;
-            
             if (this.litCounter < this.sequence.length){
+              this.simonFinished = false;
               this.playSequence();
             }
+
+            else if (this.litCounter >= this.sequence.length) {
+              this.simonFinished = true;
+            };
         }.bind(this), 2000);
+
     },
 
     captureTap: function(colorPressed) {
-      if (simonFinished === true) {
-     // console.log(colorPressed);
+      if (this.simonFinished === true) {
+
+        switch (colorPressed) {
+              case "green":
+                  this.lightGreen = true;
+                  setTimeout(function () { this.lightGreen = false }.bind(this), 100);
+                  break;
+              case "red":
+                  this.lightRed = true;
+                  setTimeout(function () { this.lightRed = false }.bind(this), 100);
+                  break;
+              case "yellow":
+                  this.lightYellow = true;
+                  setTimeout(function () { this.lightYellow = false }.bind(this), 100);
+                  break;
+              case "blue":
+                  this.lightBlue = true;
+                  setTimeout(function () { this.lightBlue = false }.bind(this), 100);
+                  break;
+            };
+
         this.taps.push(colorPressed);
-        for (var i=0;i<this.sequence.length; i++) {
-          console.log('sequence: ', this.sequence[i])
-          for (var j=0; j<this.taps.length; j++ ) {
-            console.log('taps: ', this.taps[j]);
-            if (this.sequence[i] !== this.taps[j]) {
-              alert("YOU LOSE");
-            }
-          }
+        if (this.sequence[[this.tapCounter]] !== this.taps[[this.tapCounter]]) {
+          alert("YOU LOSE");
         }
+        else {
+          console.log('you are good for now')            
+        }       
+        this.tapCounter++;
       }
     },
+
+
+
     startTimer: function() {
       alert('hi')
     },
