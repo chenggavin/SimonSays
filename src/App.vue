@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <h1> VUEmon Says</h1>
+    <i class="heading"> <span class="vuemon">V U E</span>mon Says</i><br>
+    <i class="subheading">- a Simon Says clone, made with Vue.js</i>
     <div v-if="gameOver" class="card gameOverCard">
       <div class="card-block">
         <h4 class="card-title">{{ gameFinishedMessage }}</h4>
@@ -8,17 +9,13 @@
       </div>
     </div>
     <div class="streak">
-      <div class = "card">
+      <h5>Current Streak: {{ currentStreak }}</h5>
+      <div v-if="yourTurn === false" class = "card simonturn">
         <div class="card-block">
-          <h6 class="card-title">Current Streak: {{ currentStreak }}</h6>
+          <h6 class="card-title">VUE mon's TURN</h6>
         </div>
       </div>
-      <div v-if="yourTurn === false" class = "card">
-        <div class="card-block">
-          <h6 class="card-title">VUEMON'S TURN</h6>
-        </div>
-      </div>
-      <div v-if="yourTurn" class = "card">
+      <div v-if="yourTurn" class = "card yourturn">
         <div class="card-block">
           <h6 class="card-title">YOUR TURN!</h6>
         </div>
@@ -65,7 +62,7 @@
         gameFinishedMessage: '',
         subtitleMessage:'',
         gameOver: false,
-        tapped: false,
+        tapped: 0,
         yourTurn: true,
       }
     },
@@ -79,7 +76,7 @@
       this.newGameReady = false;
       this.yourTurn= false;
       this.simonFinished = false;
-      this.tapped = true;
+      this.tapped = 0;
       this.gameOver = false;
       this.tapCounter = 0;
       this.litCounter = 0;
@@ -141,8 +138,8 @@
             else if (this.litCounter >= this.sequence.length) {
               this.simonFinished = true;
               this.yourTurn = true;
-              this.tapped = false;
-              setTimeout(function () { this.startTimer(); }.bind(this), 25000);
+              this.tapped = 0;
+              setTimeout(function () { this.startTimer(); }.bind(this), 30000);
             };
         }.bind(this), 1000);
 
@@ -150,7 +147,7 @@
 
     captureTap: function(colorPressed) {
       if (this.simonFinished === true) {
-        this.tapped = true;
+        this.tapped++;
         switch (colorPressed) {
               case "green":
                   this.lightGreen = true;
@@ -190,7 +187,7 @@
 
 
     startTimer: function() {
-      if ( this.tapped === false) {
+      if ( this.tapped === 0 && this.simonFinished === true) {
           this.gameOver = true;
           this.gameFinishedMessage = "YOU LOSE!";
           this.subtitleMessage = 'Sorry, you too wayyyy too long!';
@@ -209,11 +206,24 @@
 <style>
 
 #app {
-  margin-top: 10%;
+  margin-top: 5%;
   margin-left: 25%;
 }
-h1 {
+.heading {
+  font-size: 35px;
   margin-left: 10%;
+  color: lightgreen;
+  }
+
+.vuemon {
+  color:green;
+  font-weight: bold;
+  font-size:40px;
+}
+
+.subheading {
+  font-size: 14px;
+  margin-left: 15%;
 }
 .gameOverCard {
   text-align: center;
@@ -222,16 +232,30 @@ h1 {
 
 .card {
   margin: 20px;
+  width: 120px;
+}
+
+.card-title {
+  font-size: 12px;
 }
 .streak {
   float: right;
   width: 200px;
   text-align: center;
-  margin-right: 10%;
+  margin-top: 10%;
+  margin-right: 20%;
 }
 
 .btn {
   margin-left: 15%;
+}
+
+.yourturn {
+  border: 1px solid lightblue;
+}
+
+.simonturn {
+  border: 1px solid #eb9f9f;
 }
 
 
