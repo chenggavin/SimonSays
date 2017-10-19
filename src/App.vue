@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1> V U E M O N</h1>
+    <h1> VUEmon Says</h1>
     <div v-if="gameOver" class="card gameOverCard">
       <div class="card-block">
         <h4 class="card-title">{{ gameFinishedMessage }}</h4>
