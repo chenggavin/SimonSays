@@ -35,7 +35,7 @@
       <button id="yellow" v-on:click="captureTap('yellow')" v-bind:class="{ 'lightYellow': lightYellow}" class="button yellow space"></button>
     </div>
   
-    <button v-on:click="newGame" v-if="newGameReady" class="btn btn-md newGame">New Game</button>
+    <button v-on:click="newGame" v-if="newGameReady" class="btn btn-md btn-outline-secondary newGame">New Game</button>
 
    
 
@@ -66,7 +66,7 @@
         subtitleMessage:'',
         gameOver: false,
         tapped: false,
-        yourTurn: false,
+        yourTurn: true,
       }
     },
 
@@ -132,6 +132,7 @@
 
             else if (this.litCounter >= this.sequence.length) {
               this.simonFinished = true;
+              this.yourTurn = true;
               this.tapped = false;
               setTimeout(function () { this.startTimer(); }.bind(this), 25000);
             };
@@ -141,7 +142,6 @@
 
     captureTap: function(colorPressed) {
       if (this.simonFinished === true) {
-        this.yourTurn = true;
         this.tapped = true;
         switch (colorPressed) {
               case "green":
@@ -222,10 +222,14 @@ h1 {
   margin-right: 10%;
 }
 
+.btn {
+  margin-left: 15%;
+}
+
 
 .green {
   opacity: 0.1;
-  background-color: green;
+  background-color: #75D701;
   border: 2px solid black;
 }
 
@@ -243,7 +247,7 @@ h1 {
 
 .blue {
   opacity: 0.1;
-  background-color: blue;
+  background-color: #00b9f1;
   border: 2px solid black;
 }
 
