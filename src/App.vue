@@ -37,7 +37,7 @@
 
     data () {
       return {
-        currentStreak: '',        
+        currentStreak: '0',        
         sequence:[],
         taps:[],
         tapCounter: 0,
@@ -60,20 +60,11 @@
  methods: {
     newGame: function() {
       this.gameOver = false;
-      this.streakCount();
+      this.currentStreak = 0;
       this.addToSequence();
       this.playSequence();
       this.newGameReady = false;
       
-    },
-
-    streakCount: function() {
-      if (this.sequence.length === 0) {
-        this.currentStreak = 0;
-      }
-      else {
-        this.currentStreak = this.sequence.length - 1;
-      }
     },
 
     chooseRandomLight: function() {
@@ -88,6 +79,7 @@
     },
 
     nextRound: function() {
+      this.currentStreak++;
       this.litCounter = 0;
       this.tapCounter = 0;
       this.taps = [];
@@ -161,10 +153,7 @@
           this.subTitleMessage = "Better Luck Next Time..";
           this.newGameReady = true;
           this.simonFinished = false;
-        }
-        else {
-          this.streakCount();            
-        };       
+        }    
         this.tapCounter++;
         if (this.tapCounter === this.sequence.length) {
           this.nextRound();
