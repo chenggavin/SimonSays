@@ -52,6 +52,7 @@
         gameFinishedMessage: '',
         subtitleMessage:'',
         gameOver: false,
+        tapped: false,
       }
     },
 
@@ -123,6 +124,7 @@
 
             else if (this.litCounter >= this.sequence.length) {
               this.simonFinished = true;
+              this.tapped = false;
               setTimeout(function () { this.startTimer(); }.bind(this), 25000);
             };
         }.bind(this), 2000);
@@ -131,7 +133,7 @@
 
     captureTap: function(colorPressed) {
       if (this.simonFinished === true) {
-
+        this.tapped = true;
         switch (colorPressed) {
               case "green":
                   this.lightGreen = true;
@@ -174,10 +176,10 @@
 
 
     startTimer: function() {
-      if ( this.tapCounter === 0 && this.litCounter >= this.sequence.length) {
+      if ( this.tapped === false) {
           this.gameOver = true;
           this.gameFinishedMessage = "YOU LOSE!";
-          this.subTitleMessage = 'Sorry, you too wayyyy too long!';
+          this.subtitleMessage = 'Sorry, you too wayyyy too long!';
           this.newGameReady = true;
       }
     },
