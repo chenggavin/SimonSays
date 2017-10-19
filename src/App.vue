@@ -63,6 +63,7 @@
         subtitleMessage:'',
         gameOver: false,
         tapped: 0,
+        round: 0,
         yourTurn: true,
       }
     },
@@ -80,6 +81,7 @@
       this.gameOver = false;
       this.tapCounter = 0;
       this.litCounter = 0;
+      this.round = 0;
       this.addToSequence();
       this.playSequence();
 
@@ -99,6 +101,7 @@
     },
 
     nextRound: function() {
+      this.round = 0;
       this.currentStreak++;
       this.litCounter = 0;
       this.tapCounter = 0;
@@ -138,7 +141,6 @@
             else if (this.litCounter >= this.sequence.length) {
               this.simonFinished = true;
               this.yourTurn = true;
-              this.tapped = 0;
               setTimeout(function () { this.startTimer(); }.bind(this), 30000);
             };
         }.bind(this), 1000);
@@ -147,7 +149,6 @@
 
     captureTap: function(colorPressed) {
       if (this.simonFinished === true) {
-        this.tapped++;
         switch (colorPressed) {
               case "green":
                   this.lightGreen = true;
@@ -175,7 +176,8 @@
           this.subTitleMessage = "Better Luck Next Time..";
           this.newGameReady = true;
           this.simonFinished = false;
-        }    
+        }
+        this.tapped++;    
         this.tapCounter++;
         if (this.tapCounter === this.sequence.length) {
           this.nextRound();
@@ -187,7 +189,7 @@
 
 
     startTimer: function() {
-      if ( this.tapped === 0 && this.simonFinished === true) {
+      if ( this.round > this.tapped) {
           this.gameOver = true;
           this.gameFinishedMessage = "YOU LOSE!";
           this.subtitleMessage = 'Sorry, you took wayyyy too long!';
