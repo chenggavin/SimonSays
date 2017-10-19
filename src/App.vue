@@ -7,16 +7,29 @@
         <h6 class="card-subtitle mb-2 text-muted">{{ subtitleMessage }}</h6>
       </div>
     </div>
+    <div class="streak">
+      <div class = "card">
+        <div class="card-block">
+          <h6 class="card-title">Current Streak: {{ currentStreak }}</h6>
+        </div>
+      </div>
+      <div v-if="yourTurn === false" class = "card">
+        <div class="card-block">
+          <h6 class="card-title">VUEMON'S TURN</h6>
+        </div>
+      </div>
+      <div v-if="yourTurn" class = "card">
+        <div class="card-block">
+          <h6 class="card-title">YOUR TURN!</h6>
+        </div>
+      </div>
+    </div>
 
     <div class="row">
       <button id="green" v-on:click="captureTap('green')" v-bind:class="{ 'lightGreen': lightGreen}" class="button green space"></button>
       <button id="red" v-on:click="captureTap('red')" v-bind:class="{ 'lightRed': lightRed}" class="button red space"></button>
     </div>
-    <div class = "card streak">
-      <div class="card-block">
-        <h6 class="card-title">Current Streak: {{ currentStreak }}</h6>
-      </div>
-    </div>
+
     <div class="row">
       <button id="blue" v-on:click="captureTap('blue')" v-bind:class="{ 'lightBlue': lightBlue}" class="button blue space"></button>
       <button id="yellow" v-on:click="captureTap('yellow')" v-bind:class="{ 'lightYellow': lightYellow}" class="button yellow space"></button>
@@ -53,6 +66,7 @@
         subtitleMessage:'',
         gameOver: false,
         tapped: false,
+        yourTurn: false,
       }
     },
 
@@ -64,6 +78,7 @@
       this.addToSequence();
       this.playSequence();
       this.newGameReady = false;
+      this.yourTurn= false
       
     },
 
@@ -83,6 +98,7 @@
       this.litCounter = 0;
       this.tapCounter = 0;
       this.taps = [];
+      this.yourTurn = false;
       this.addToSequence();
       this.playSequence();
     },
@@ -125,6 +141,7 @@
 
     captureTap: function(colorPressed) {
       if (this.simonFinished === true) {
+        this.yourTurn = true;
         this.tapped = true;
         switch (colorPressed) {
               case "green":
@@ -182,6 +199,7 @@
 </script>
 
 <style>
+
 #app {
   margin-top: 10%;
   margin-left: 25%;
@@ -194,6 +212,9 @@ h1 {
   width:345px;
 }
 
+.card {
+  margin: 20px;
+}
 .streak {
   float: right;
   width: 200px;
