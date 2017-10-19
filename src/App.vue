@@ -33,7 +33,6 @@
         lightRed: false,
         lightYellow:false,
         litCounter: 0,
-        currentColor: '',
         simonFinished: false,
       }
     },
@@ -64,6 +63,14 @@
     addToSequence: function() {
       this.sequence.push(this.chooseRandomLight());
       console.log(this.sequence)
+    },
+
+    nextRound: function() {
+      this.litCounter = 0;
+      this.tapCounter = 0;
+      this.taps = [];
+      this.addToSequence();
+      this.playSequence();
     },
 
     playSequence: function() {
@@ -123,13 +130,20 @@
             };
 
         this.taps.push(colorPressed);
+
+        console.log('tapArray:   ',this.taps)
+        console.log('sequenceArray:  ',this.sequence[[this.tapCounter]])
         if (this.sequence[[this.tapCounter]] !== this.taps[[this.tapCounter]]) {
           alert("YOU LOSE");
         }
         else {
           console.log('you are good for now')            
-        }       
+        };       
         this.tapCounter++;
+        if (this.tapCounter === this.sequence.length) {
+          this.nextRound();
+        }
+
       }
     },
 
