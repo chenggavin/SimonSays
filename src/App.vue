@@ -73,12 +73,20 @@
 
  methods: {
     newGame: function() {
-      this.gameOver = false;
       this.currentStreak = 0;
+      this.taps = [];
+      this.sequence = [];
+      this.newGameReady = false;
+      this.yourTurn= false;
+      this.simonFinished = false;
+      this.tapped = true;
+      this.gameOver = false;
+      this.tapCounter = 0;
+      this.litCounter = 0;
       this.addToSequence();
       this.playSequence();
-      this.newGameReady = false;
-      this.yourTurn= false
+
+
       
     },
 
@@ -109,19 +117,19 @@
             switch (this.sequence[[this.litCounter]]) {
               case "green":
                   this.lightGreen = true;
-                  setTimeout(function () { this.lightGreen = false }.bind(this), 500);
+                  setTimeout(function () { this.lightGreen = false }.bind(this), 300);
                   break;
               case "red":
                   this.lightRed = true;
-                  setTimeout(function () { this.lightRed = false }.bind(this), 500);
+                  setTimeout(function () { this.lightRed = false }.bind(this), 300);
                   break;
               case "yellow":
                   this.lightYellow = true;
-                  setTimeout(function () { this.lightYellow = false }.bind(this), 500);
+                  setTimeout(function () { this.lightYellow = false }.bind(this), 300);
                   break;
               case "blue":
                   this.lightBlue = true;
-                  setTimeout(function () { this.lightBlue = false }.bind(this), 500);
+                  setTimeout(function () { this.lightBlue = false }.bind(this), 300);
                   break;
             };
             this.litCounter++;
@@ -136,7 +144,7 @@
               this.tapped = false;
               setTimeout(function () { this.startTimer(); }.bind(this), 25000);
             };
-        }.bind(this), 2000);
+        }.bind(this), 1000);
 
     },
 
