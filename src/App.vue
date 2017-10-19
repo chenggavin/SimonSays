@@ -10,12 +10,12 @@
     </div>
     <div class="streak">
       <h5>Current Streak: {{ currentStreak }}</h5>
-      <div v-if="yourTurn === false" class = "card simonturn">
+      <div v-if="yourTurn === false" class = "card littlecard simonturn">
         <div class="card-block">
           <h6 class="card-title">VUE mon's TURN</h6>
         </div>
       </div>
-      <div v-if="yourTurn" class = "card yourturn">
+      <div v-if="yourTurn" class = "card littlecard yourturn">
         <div class="card-block">
           <h6 class="card-title">YOUR TURN!</h6>
         </div>
@@ -190,7 +190,7 @@
       if ( this.tapped === 0 && this.simonFinished === true) {
           this.gameOver = true;
           this.gameFinishedMessage = "YOU LOSE!";
-          this.subtitleMessage = 'Sorry, you too wayyyy too long!';
+          this.subtitleMessage = 'Sorry, you took wayyyy too long!';
           this.newGameReady = true;
       }
     },
@@ -225,14 +225,15 @@
   font-size: 14px;
   margin-left: 15%;
 }
+
+
+.littlecard {
+  margin: 20px;
+  width: 120px;
+}
 .gameOverCard {
   text-align: center;
   width:345px;
-}
-
-.card {
-  margin: 20px;
-  width: 120px;
 }
 
 .card-title {
