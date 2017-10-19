@@ -59,10 +59,11 @@
  methods: {
     newGame: function() {
       this.gameOver = false;
+      this.streakCount();
       this.addToSequence();
       this.playSequence();
       this.newGameReady = false;
-      this.streakCount();
+      
     },
 
     streakCount: function() {
