@@ -1,16 +1,30 @@
 <template>
   <div id="app">
-    
+    <h1> V U E M O N</h1>
+    <div v-if="gameOver" class="card gameOverCard">
+      <div class="card-block">
+        <h4 class="card-title">{{ gameFinishedMessage }}</h4>
+        <h6 class="card-subtitle mb-2 text-muted">{{ subtitleMessage }}</h6>
+      </div>
+    </div>
+
     <div class="row">
       <button id="green" v-on:click="captureTap('green')" v-bind:class="{ 'lightGreen': lightGreen}" class="button green space"></button>
       <button id="red" v-on:click="captureTap('red')" v-bind:class="{ 'lightRed': lightRed}" class="button red space"></button>
+    </div>
+    <div class = "card streak">
+      <div class="card-block">
+        <h6 class="card-title">Current Streak: {{ currentStreak }}</h6>
+      </div>
     </div>
     <div class="row">
       <button id="blue" v-on:click="captureTap('blue')" v-bind:class="{ 'lightBlue': lightBlue}" class="button blue space"></button>
       <button id="yellow" v-on:click="captureTap('yellow')" v-bind:class="{ 'lightYellow': lightYellow}" class="button yellow space"></button>
     </div>
   
-    <button v-on:click="start" class="btn btn-md start">Start</button>
+    <button v-on:click="newGame" v-if="newGameReady" class="btn btn-md newGame">New Game</button>
+
+   
 
 
   </div>
@@ -23,7 +37,7 @@
 
     data () {
       return {
-        longest: 0,
+        currentStreak: '',        
         sequence:[],
         taps:[],
         tapCounter: 0,
@@ -34,24 +48,30 @@
         lightYellow:false,
         litCounter: 0,
         simonFinished: false,
-      }
-    },
-    computed: {
-      current: function() {
-        return this.sequence.length;
+        newGameReady: true,
+        gameFinishedMessage: '',
+        subtitleMessage:'',
+        gameOver: false,
       }
     },
 
-    mounted(){
-
-    },
 
  methods: {
-    start: function() {
-      this.sequence = ["blue"];
+    newGame: function() {
+      this.gameOver = false;
       this.addToSequence();
       this.playSequence();
-      //this.startTimer();
+      this.newGameReady = false;
+      this.streakCount();
+    },
+
+    streakCount: function() {
+      if (this.sequence.length === 0) {
+        this.currentStreak = 0;
+      }
+      else {
+        this.currentStreak = this.sequence.length - 1;
+      }
     },
 
     chooseRandomLight: function() {
@@ -79,19 +99,19 @@
             switch (this.sequence[[this.litCounter]]) {
               case "green":
                   this.lightGreen = true;
-                  setTimeout(function () { this.lightGreen = false }.bind(this), 1000);
+                  setTimeout(function () { this.lightGreen = false }.bind(this), 500);
                   break;
               case "red":
                   this.lightRed = true;
-                  setTimeout(function () { this.lightRed = false }.bind(this), 1000);
+                  setTimeout(function () { this.lightRed = false }.bind(this), 500);
                   break;
               case "yellow":
                   this.lightYellow = true;
-                  setTimeout(function () { this.lightYellow = false }.bind(this), 1000);
+                  setTimeout(function () { this.lightYellow = false }.bind(this), 500);
                   break;
               case "blue":
                   this.lightBlue = true;
-                  setTimeout(function () { this.lightBlue = false }.bind(this), 1000);
+                  setTimeout(function () { this.lightBlue = false }.bind(this), 500);
                   break;
             };
             this.litCounter++;
@@ -102,6 +122,7 @@
 
             else if (this.litCounter >= this.sequence.length) {
               this.simonFinished = true;
+              setTimeout(function () { this.startTimer(); }.bind(this), 25000);
             };
         }.bind(this), 2000);
 
@@ -131,13 +152,15 @@
 
         this.taps.push(colorPressed);
 
-        console.log('tapArray:   ',this.taps)
-        console.log('sequenceArray:  ',this.sequence[[this.tapCounter]])
         if (this.sequence[[this.tapCounter]] !== this.taps[[this.tapCounter]]) {
-          alert("YOU LOSE");
+          this.gameOver = true;
+          this.gameFinishedMessage = "YOU LOSE!";
+          this.subTitleMessage = "Better Luck Next Time..";
+          this.newGameReady = true;
+          this.simonFinished = false;
         }
         else {
-          console.log('you are good for now')            
+          this.streakCount();            
         };       
         this.tapCounter++;
         if (this.tapCounter === this.sequence.length) {
@@ -150,7 +173,12 @@
 
 
     startTimer: function() {
-      alert('hi')
+      if ( this.tapCounter === 0 && this.litCounter >= this.sequence.length) {
+          this.gameOver = true;
+          this.gameFinishedMessage = "YOU LOSE!";
+          this.subTitleMessage = 'Sorry, you too wayyyy too long!';
+          this.newGameReady = true;
+      }
     },
 
   }
@@ -166,32 +194,44 @@
   margin-top: 10%;
   margin-left: 25%;
 }
-.start {
-
+h1 {
+  margin-left: 10%;
 }
+.gameOverCard {
+  text-align: center;
+  width:345px;
+}
+
+.streak {
+  float: right;
+  width: 200px;
+  text-align: center;
+  margin-right: 10%;
+}
+
 
 .green {
   opacity: 0.1;
   background-color: green;
-  border: 1px solid black;
+  border: 2px solid black;
 }
 
 .red {
   opacity: 0.1;
   background-color: red;
-  border: 1px solid red;
+  border: 2px solid black;
 }
 
 .yellow {
   opacity: 0.1;
   background-color: yellow;
-  border: 1px solid yellow;
+  border: 2px solid black;
 }
 
 .blue {
   opacity: 0.1;
   background-color: blue;
-  border: 1px solid blue;
+  border: 2px solid black;
 }
 
 .space {
@@ -202,9 +242,6 @@
 
 }
 
-.bright {
-  opacity: 1.0 !important;
-},
 
 .col {
   display: inline-block;
