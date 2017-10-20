@@ -1,10 +1,11 @@
 <template>
-  <div id="app">
-    <i class="heading"> <span class="vuemon">V U E</span>mon Says</i><br>
+  <div id="app" >
+    
+    <i class="heading vuemon"> <img src="./assets/vue.png"> UE.mon Says</i><br>
     <i class="subheading">- a Simon Says clone, made with Vue.js</i>
     <div v-if="gameOver" class="card gameOverCard">
       <div class="card-block">
-        <h4 class="card-title">{{ gameFinishedMessage }}</h4>
+        <h3 class="card-title">{{ gameFinishedMessage }}</h3>
         <h6 class="card-subtitle mb-2 text-muted">{{ subtitleMessage }}</h6>
       </div>
     </div>
@@ -21,19 +22,20 @@
         </div>
       </div>
     </div>
+    
+    <div class="gamebox">
+      <div class="row">
+        <button id="green" v-on:click="captureTap('green')" v-bind:class="{ 'lightGreen': lightGreen}" class="button green space"></button>
+        <button id="red" v-on:click="captureTap('red')" v-bind:class="{ 'lightRed': lightRed}" class="button red space"></button>
+      </div>
 
-    <div class="row">
-      <button id="green" v-on:click="captureTap('green')" v-bind:class="{ 'lightGreen': lightGreen}" class="button green space"></button>
-      <button id="red" v-on:click="captureTap('red')" v-bind:class="{ 'lightRed': lightRed}" class="button red space"></button>
+      <div class="row">
+        <button id="blue" v-on:click="captureTap('blue')" v-bind:class="{ 'lightBlue': lightBlue}" class="button blue space"></button>
+        <button id="yellow" v-on:click="captureTap('yellow')" v-bind:class="{ 'lightYellow': lightYellow}" class="button yellow space"></button>
+      </div>
     </div>
-
-    <div class="row">
-      <button id="blue" v-on:click="captureTap('blue')" v-bind:class="{ 'lightBlue': lightBlue}" class="button blue space"></button>
-      <button id="yellow" v-on:click="captureTap('yellow')" v-bind:class="{ 'lightYellow': lightYellow}" class="button yellow space"></button>
-    </div>
-  
     <button v-on:click="newGame" v-if="newGameReady" class="btn btn-md btn-outline-secondary newGame">New Game</button>
-
+  
    
 
 
@@ -173,7 +175,7 @@
         if (this.sequence[[this.tapCounter]] !== this.taps[[this.tapCounter]]) {
           this.gameOver = true;
           this.gameFinishedMessage = "YOU LOSE!";
-          this.subTitleMessage = "Better Luck Next Time..";
+          this.subtitleMessage = "Better Luck Next Time..";
           this.newGameReady = true;
           this.simonFinished = false;
         }
@@ -210,17 +212,22 @@
 #app {
   margin-top: 5%;
   margin-left: 25%;
+  size: 50%;
 }
 .heading {
   font-size: 35px;
-  margin-left: 10%;
+  margin-left: 5%;
   color: lightgreen;
   }
 
 .vuemon {
-  color:green;
+  color:#71d191;
   font-weight: bold;
   font-size:40px;
+}
+.gamebox {
+  margin-top: 10%;
+  margin-left: 10%;
 }
 
 .subheading {
@@ -236,6 +243,9 @@
 .gameOverCard {
   text-align: center;
   width:345px;
+  margin-top: 5%;
+  margin-left: 8%
+
 }
 
 .card-title {
@@ -247,10 +257,12 @@
   text-align: center;
   margin-top: 10%;
   margin-right: 20%;
+  color: #00b9f1;
 }
 
 .btn {
-  margin-left: 15%;
+  margin-top:40px;
+  margin-left: 170px;
 }
 
 .yourturn {
@@ -263,34 +275,37 @@
 
 
 .green {
-  opacity: 0.1;
+  opacity: 0.5;
   background-color: #75D701;
   border: 2px solid black;
+  border-radius: 80% 10% 0% 10%;
 }
 
 .red {
-  opacity: 0.1;
+  opacity: 0.5;
   background-color: red;
   border: 2px solid black;
+  border-radius: 10% 80% 10% 0%;
 }
 
 .yellow {
-  opacity: 0.1;
-  background-color: yellow;
+  opacity: 0.4;
+  background-color: #fbd14b;
   border: 2px solid black;
+  border-radius: 0% 10% 80% 10%;
 }
 
 .blue {
-  opacity: 0.1;
+  opacity: 0.5;
   background-color: #00b9f1;
   border: 2px solid black;
+  border-radius: 10% 0% 10% 80%;
 }
 
 .space {
-  height: 150px;
-  width: 150px;
-  text-align: center;
-  margin: 20px;
+  height: 170px;
+  width: 170px;
+  margin: 5px;
 
 }
 
