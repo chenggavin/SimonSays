@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     
-    <div class="heading vuemon"> <img src="./assets/vue.png"> UE.mon Says</div><br>
+    <div class="heading vuemon"> <img src="./assets/vue.png"> UE.mon  Says</div><br>
     <div class="subheading"><i>- a Simon Says clone, made with Vue.js</i></div>
     <div v-if="gameOver" class="card gameOverCard">
       <div class="card-block">
@@ -10,20 +10,30 @@
       </div>
     </div>
     <div>
-      <button v-on:click="newGame" v-if="newGameReady" class="btn btn-md btn-outline-secondary newGame">New Game</button>
+      <button v-on:click="newGame" v-if="newGameReady" class="btn btn-md btn-outline-primary newGame">New Game</button>
       <h5 class="streak">Current Streak: {{ currentStreak }}</h5>
       <div v-if="yourTurn === false" class = "card littlecard simonturn">VUE.mon TURN</div>
       <div v-if="yourTurn" class = "card littlecard yourturn">YOUR TURN</div>
     </div>
     <div class="gamebox">
       <div class="row">
-        <button id="green" v-on:click="captureTap('green')" v-bind:class="{ 'lightGreen': lightGreen}" class="button green space"></button>
-        <button id="red" v-on:click="captureTap('red')" v-bind:class="{ 'lightRed': lightRed}" class="button red space"></button>
+        <div>
+          <button id="green" v-on:click="captureTap('green')" v-bind:class="{ 'lightGreen': lightGreen}" class="button green space" style="outline:none;">
+            <div class="innerGreen"></div>
+          </button>
+        </div>
+          <button id="red" v-on:click="captureTap('red')" v-bind:class="{ 'lightRed': lightRed}" class="button red space" style="outline:none;">
+            <div class="innerRed"></div>
+          </button>
       </div>
 
       <div class="row">
-        <button id="blue" v-on:click="captureTap('blue')" v-bind:class="{ 'lightBlue': lightBlue}" class="button blue space"></button>
-        <button id="yellow" v-on:click="captureTap('yellow')" v-bind:class="{ 'lightYellow': lightYellow}" class="button yellow space"></button>
+        <button id="blue" v-on:click="captureTap('blue')" v-bind:class="{ 'lightBlue': lightBlue}" class="button blue space" style="outline:none;">
+          <div class="innerBlue"></div>
+        </button>
+        <button id="yellow" v-on:click="captureTap('yellow')" v-bind:class="{ 'lightYellow': lightYellow}" class="button yellow space" style="outline:none;">
+          <div class="innerYellow"></div>
+        </button>
       </div>
     </div>
     
@@ -95,14 +105,16 @@
     },
 
     nextRound: function() {
-      this.round = 0;
-      this.currentStreak++;
-      this.litCounter = 0;
-      this.tapCounter = 0;
-      this.taps = [];
-      this.yourTurn = false;
-      this.addToSequence();
-      this.playSequence();
+      if (!this.gameOver) {
+        this.round = 0;
+        this.currentStreak++;
+        this.litCounter = 0;
+        this.tapCounter = 0;
+        this.taps = [];
+        this.yourTurn = false;
+        this.addToSequence();
+        this.playSequence();
+      }
     },
 
     playSequence: function() {
@@ -135,7 +147,7 @@
             else if (this.litCounter >= this.sequence.length) {
               this.simonFinished = true;
               this.yourTurn = true;
-              setTimeout(function () { this.startTimer(); }.bind(this), 30000);
+              setTimeout(function () { this.startTimer(); }.bind(this), 20000);
             };
         }.bind(this), 1000);
 
@@ -203,7 +215,6 @@
 #app {
   margin-top: 5%;
   size: 50%;
-  border: 1px solid black;
 }
 .heading {
   font-size: 30px;
@@ -230,9 +241,13 @@
 
 }
 
-.row {
+.row.green, .row.red {
   margin-left: 5%;
   margin-top: 5%;
+
+}
+.row {
+  margin-left: 5%;
 }
 /*.littlecard {
   margin: 20px;
@@ -261,7 +276,9 @@
 
 .btn {
   float:left;
-  margin-left: 8%;
+  margin-top: 1%;
+  margin-left: 10%;
+  color: blue;
 }
 
 .yourturn {
@@ -286,35 +303,76 @@
 .green {
   opacity: 0.5;
   background-color: #75D701;
-  border: 2px solid black;
+  border: 1px solid white;
   border-radius: 80% 10% 0% 10%;
+  position: relative;
+}
+.innerGreen {
+  height:75px;
+  width: 75px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-radius: 80% 0% 0% 0%;
+  background-color: white;
 }
 
 .red {
   opacity: 0.5;
   background-color: red;
-  border: 2px solid black;
+  border: 1px solid white;
   border-radius: 10% 80% 10% 0%;
+  position: relative;
+
+}
+.innerRed {
+  height:75px;
+  width: 75px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-radius: 0% 80% 0% 0%;
+  background-color: white;
 }
 
 .yellow {
   opacity: 0.4;
   background-color: #fbd14b;
-  border: 2px solid black;
+  border: 1px solid white;
   border-radius: 0% 10% 80% 10%;
+  position: relative;
+}
+.innerYellow {
+  height:75px;
+  width: 75px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 0% 0% 80% 0%;
+  background-color: white;
 }
 
 .blue {
   opacity: 0.5;
   background-color: #00b9f1;
-  border: 2px solid black;
+  border: 1px solid white;
   border-radius: 10% 0% 10% 80%;
+  position: relative;
+}
+.innerBlue {
+  height:75px;
+  width: 75px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 0% 0% 0% 80%;
+  background-color: white;
 }
 
 .space {
   height: 170px;
   width: 170px;
-  margin: 5px;
+  margin: 2px;
 
 }
 
