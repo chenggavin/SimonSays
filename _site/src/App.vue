@@ -119,6 +119,7 @@
 
     playSequence: function() {
         setTimeout(function () {  
+
             switch (this.sequence[this.litCounter]) {
               case "green":
                   this.lightGreen = true;
@@ -248,7 +249,13 @@
 .row {
   margin-left: 5%;
 }
+/*.littlecard {
+  margin: 20px;
+  width: 150px;
+  float: right;
+  text-align: center;
 
+}*/
 .gameOverCard {
   text-align: center;
   width:345px;
