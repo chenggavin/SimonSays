@@ -9,8 +9,9 @@
         <h6 class="card-subtitle mb-2 text-muted">{{ subtitleMessage }}</h6>
       </div>
     </div>
-    <div>
+    <div class="streaktrun">
       <button v-on:click="newGame" v-if="newGameReady" class="btn btn-md btn-outline-primary newGame">New Game</button>
+      <h5 class="streak">Your Best Streak: {{ longest }}</h5>
       <h5 class="streak">Current Streak: {{ currentStreak }}</h5>
       <div v-if="yourTurn === false" class = "card littlecard simonturn">VUE.mon TURN</div>
       <div v-if="yourTurn" class = "card littlecard yourturn">YOUR TURN</div>
@@ -51,7 +52,8 @@
 
     data () {
       return {
-        currentStreak: '0',        
+        currentStreak: '0',  
+        longest: '0',      
         sequence:[],
         taps:[],
         tapCounter: 0,
@@ -108,12 +110,14 @@
       if (!this.gameOver) {
         this.round = 0;
         this.currentStreak++;
+        this.longest++;
         this.litCounter = 0;
         this.tapCounter = 0;
         this.taps = [];
         this.yourTurn = false;
         this.addToSequence();
         this.playSequence();
+        localStorage.setItem('this.longest', JSON.stringify(this.longest));
       }
     },
 
@@ -202,8 +206,22 @@
           this.newGameReady = true;
       }
     },
+    // Put the object into storage
 
+    // Retrieve the object from storage
+    // var retrievedObject = localStorage.getItem('this.longest');
+
+    // console.log('retrievedObject: ', JSON.parse(this.longest));
+
+  },
+
+  beforeMount: function() {
+    var retrievedObject = localStorage.getItem('this.longest');
+    this.longest = retrievedObject;
+    console.log('retrievedObject: ', JSON.parse(this.longest));
   }
+
+  
 }
 
 
@@ -236,8 +254,8 @@
 .subheading {
   font-size: 14px;
   text-align: center;
-  margin-left:5%;
-
+  margin-left: 5%;
+  color: red;
 }
 
 .row.green, .row.red {
@@ -279,8 +297,8 @@
   color:#75D701;
   text-align: center;
   width: 150px;
-  margin-top: 1%;
-  margin-left: 72%;
+  margin-left: 72%
+
 }
 
 .simonturn {
