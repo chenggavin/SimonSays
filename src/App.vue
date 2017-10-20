@@ -1,28 +1,20 @@
 <template>
-  <div id="app" >
+  <div id="app">
     
-    <i class="heading vuemon"> <img src="./assets/vue.png"> UE.mon Says</i><br>
-    <i class="subheading">- a Simon Says clone, made with Vue.js</i>
+    <div class="heading vuemon"> <img src="./assets/vue.png"> UE.mon Says</div><br>
+    <div class="subheading"><i>- a Simon Says clone, made with Vue.js</i></div>
     <div v-if="gameOver" class="card gameOverCard">
       <div class="card-block">
         <h3 class="card-title">{{ gameFinishedMessage }}</h3>
         <h6 class="card-subtitle mb-2 text-muted">{{ subtitleMessage }}</h6>
       </div>
     </div>
-    <div class="streak">
-      <h5>Current Streak: {{ currentStreak }}</h5>
-      <div v-if="yourTurn === false" class = "card littlecard simonturn">
-        <div class="card-block">
-          <h6 class="card-title">VUE mon's TURN</h6>
-        </div>
-      </div>
-      <div v-if="yourTurn" class = "card littlecard yourturn">
-        <div class="card-block">
-          <h6 class="card-title">YOUR TURN!</h6>
-        </div>
-      </div>
+    <div>
+      <button v-on:click="newGame" v-if="newGameReady" class="btn btn-md btn-outline-secondary newGame">New Game</button>
+      <h5 class="streak">Current Streak: {{ currentStreak }}</h5>
+      <div v-if="yourTurn === false" class = "card littlecard simonturn">VUE.mon TURN</div>
+      <div v-if="yourTurn" class = "card littlecard yourturn">YOUR TURN</div>
     </div>
-    
     <div class="gamebox">
       <div class="row">
         <button id="green" v-on:click="captureTap('green')" v-bind:class="{ 'lightGreen': lightGreen}" class="button green space"></button>
@@ -34,7 +26,7 @@
         <button id="yellow" v-on:click="captureTap('yellow')" v-bind:class="{ 'lightYellow': lightYellow}" class="button yellow space"></button>
       </div>
     </div>
-    <button v-on:click="newGame" v-if="newGameReady" class="btn btn-md btn-outline-secondary newGame">New Game</button>
+    
   
    
 
@@ -176,6 +168,7 @@
           this.gameOver = true;
           this.gameFinishedMessage = "YOU LOSE!";
           this.subtitleMessage = "Better Luck Next Time..";
+          this.yourTurn = '';
           this.newGameReady = true;
           this.simonFinished = false;
         }
@@ -203,74 +196,90 @@
 }
 
 
-
-
 </script>
 
 <style>
 
 #app {
   margin-top: 5%;
-  margin-left: 25%;
   size: 50%;
+  border: 1px solid black;
 }
 .heading {
-  font-size: 35px;
-  margin-left: 5%;
-  color: lightgreen;
-  }
-
-.vuemon {
+  font-size: 30px;
+  margin-left:auto;
+  margin-right:auto;
+  width:315px;
+  height:65px;
   color:#71d191;
   font-weight: bold;
-  font-size:40px;
-}
+  }
+
 .gamebox {
-  margin-top: 10%;
-  margin-left: 10%;
+  margin-left:auto;
+  margin-right:auto;
+  width:400px;
+  height:400px;
+
 }
 
 .subheading {
   font-size: 14px;
-  margin-left: 15%;
+  text-align: center;
+  margin-left:5%;
+
 }
 
-
-.littlecard {
+.row {
+  margin-left: 5%;
+  margin-top: 5%;
+}
+/*.littlecard {
   margin: 20px;
-  width: 120px;
-}
+  width: 150px;
+  float: right;
+  text-align: center;
+
+}*/
 .gameOverCard {
   text-align: center;
   width:345px;
-  margin-top: 5%;
-  margin-left: 8%
-
+  margin-top: 1%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid red;
 }
 
 .card-title {
   font-size: 12px;
 }
 .streak {
-  float: right;
-  width: 200px;
-  text-align: center;
-  margin-top: 10%;
-  margin-right: 20%;
+  text-align: right;
+  margin-right: 15%;
   color: #00b9f1;
 }
 
 .btn {
-  margin-top:40px;
-  margin-left: 170px;
+  float:left;
+  margin-left: 8%;
 }
 
 .yourturn {
-  border: 1px solid lightblue;
+  border: 1px solid grey;
+  color:#75D701;
+  text-align: center;
+  width: 150px;
+  margin-top: 1%;
+  margin-left: 72%;
 }
 
 .simonturn {
-  border: 1px solid #eb9f9f;
+  border: 1px solid grey;
+  text-align: center;
+  width: 150px;
+  margin-top: 1%;
+  margin-left: 72%;
+  color: red
 }
 
 
@@ -307,11 +316,6 @@
   width: 170px;
   margin: 5px;
 
-}
-
-
-.col {
-  display: inline-block;
 }
 
 .lightGreen {
