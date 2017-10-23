@@ -110,13 +110,15 @@
       if (!this.gameOver) {
         this.round = 0;
         this.currentStreak++;
-        this.longest++;
         this.litCounter = 0;
         this.tapCounter = 0;
         this.taps = [];
         this.yourTurn = false;
         this.addToSequence();
         this.playSequence();
+        if (this.currentStreak > this.longest) {
+          this.longest++;
+        }
         localStorage.setItem('this.longest', JSON.stringify(this.longest));
       }
     },
