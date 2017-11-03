@@ -97,13 +97,13 @@
 
     chooseRandomLight: function() {
       var index = Math.floor(Math.random() * 4);
-      console.log(index);
+      //console.log(index);
       return this.lights[index];
     },
 
     addToSequence: function() {
       this.sequence.push(this.chooseRandomLight());
-      console.log(this.sequence)
+     // console.log(this.sequence)
     },
 
     nextRound: function() {
@@ -220,7 +220,7 @@
   beforeMount: function() {
     var retrievedObject = localStorage.getItem('this.longest');
     this.longest = retrievedObject;
-    console.log('retrievedObject: ', JSON.parse(this.longest));
+  //  console.log('retrievedObject: ', JSON.parse(this.longest));
   }
 
   
